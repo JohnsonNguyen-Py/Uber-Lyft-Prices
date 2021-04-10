@@ -5,11 +5,13 @@
 
 using namespace std;
 
-enum CabType {
+enum CabType 
+{
     Lyft, Uber
 };
 
-class CabRidesRow {
+class CabRidesRow
+{
 public:
     float distance;
     CabType cab_type;
