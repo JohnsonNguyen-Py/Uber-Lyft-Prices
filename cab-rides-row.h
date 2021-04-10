@@ -18,6 +18,7 @@ public:
     int time_stamp;
     float price;
     string product_name;
+    void vectorDataInsert();
 };
 
 #endif
