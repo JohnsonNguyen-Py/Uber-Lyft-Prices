@@ -5,17 +5,20 @@
 
 using namespace std;
 
-enum CabType {
+enum CabType 
+{
     Lyft, Uber
 };
 
-class CabRidesRow {
+class CabRidesRow
+{
 public:
     float distance;
     CabType cab_type;
     int time_stamp;
     float price;
     string product_name;
+    void vectorDataInsert();
 };
 
 #endif
