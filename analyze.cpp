@@ -1,11 +1,13 @@
 #include <vector>
+#include <iostream>
 
 #include "cab-rides-row.h"
 #include "weather-row.h"
+#include "statistics.h"
 
 using namespace std;
 
-vector<WeatherRow> getRideTestData() {
+vector<CabRidesRow> getRideTestData() {
     vector<CabRidesRow> rows = {
         // distance, cab_type, time_stamp, price, product_name
         // price = (distance + noise(mean=1, std=0.4)) * 2
@@ -42,6 +44,8 @@ vector<WeatherRow> getRideTestData() {
         { 18.0, CabType::Uber, 6, 27.28597, "normal" },
         { 19.0, CabType::Uber, 5, 31.01332, "normal" }
     };
+
+    return rows;
 }
 
 vector<WeatherRow> getWeatherTestData() {
@@ -64,8 +68,20 @@ vector<WeatherRow> getWeatherTestData() {
         { 39.2, 0.2, 13},
         { 37.9, 1.0, 14}
     };
+
+    return rows;
 }
 
 int main() {
-    return 0;
+    auto rides = getRideTestData();
+    stats price_stats = getRidePriceStats(rides);
+    stats distance_stats = getRideDistanceStats(rides);
+
+    cout << "[price stats] mean: " << price_stats.mean
+        << " stdev: " << price_stats.sd
+        << " skew: " << price_stats.skew << endl;
+
+    cout << "[distance stats] mean: " << distance_stats.mean
+        << " stdev: " << distance_stats.sd
+        << " skew: " << distance_stats.skew << endl;
 }
