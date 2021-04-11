@@ -3,9 +3,7 @@
 
 #include <string>
 
-using namespace std;
-
-enum CabType 
+enum CabType
 {
     Lyft, Uber
 };
@@ -17,7 +15,7 @@ public:
     CabType cab_type;
     int time_stamp;
     float price;
-    string product_name;
+    std::string product_name;
     void vectorDataInsert();
 };
 
