@@ -46,8 +46,23 @@ vector<WeatherRow> getRideTestData() {
 
 vector<WeatherRow> getWeatherTestData() {
     vector<WeatherRow> rows = {
-        // it was hot... then it was cold
-        {}
+        // temp, rain, time_stamp
+        // it was dry... then it was raining
+        { 46.2, 0.0, 0},
+        { 35.8, 0.0, 1},
+        { 37.8, 0.0, 2},
+        { 39.3, 0.0, 3},
+        { 40.7, 0.0, 4},
+        { 33.9, 0.0, 5},
+        { 36.8, 0.0, 6},
+        { 40.5, 0.0, 7},
+        { 48.9, 0.0, 8},
+        { 35.0, 0.0, 9},
+        { 42.4, 0.0, 10},
+        { 38.6, 0.2, 11},
+        { 36.9, 0.2, 12},
+        { 39.2, 0.2, 13},
+        { 37.9, 1.0, 14}
     };
 }
 
