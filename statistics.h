@@ -4,8 +4,8 @@
 #include <vector>
 #include <math.h>
 
-#include "cab-rides-row.h"
-#include "weather-row.h"
+#include "cab-rides.h"
+#include "weather.h"
 
 struct stats {
     float mean;
@@ -14,7 +14,6 @@ struct stats {
 };
 
 // mean of rides distances
-stats getRideDistanceStats(std::vector<CabRidesRow> rides);
-stats getRidePriceStats(std::vector<CabRidesRow> rides);
+stats getOneVarStats(std::vector<float> &columns);
 
 #endif

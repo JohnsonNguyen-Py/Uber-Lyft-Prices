@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include "cab-rides-row.h"
+#include "cab-rides.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ void CabRidesRow::vectorDataInsert()
 		stringstream break(line);//breaks line into each data val
 
 		while (getline(break, word, ','))
-		{//reads column val in row 
+		{//reads column val in row
 			//add column val into vector
 			ride.push_back(word);
 		}

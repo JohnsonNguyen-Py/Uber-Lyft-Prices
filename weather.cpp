@@ -1,13 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include "weather-row.h"
+#include "weather.h"
 
 using namespace std;
 
 void WeatherRow::vectorDataInsert()
 {//start vector data insert
-	
+
 	//opening file
 	fstream weather;
 
@@ -28,7 +28,7 @@ void WeatherRow::vectorDataInsert()
 		stringstream break(line);//breaks line into each data val
 
 		while (getline(break, word, ','))
-		{//reads column val in row 
+		{//reads column val in row
 			//add column val into vector
 			weather.push_back(word);
 		}

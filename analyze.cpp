@@ -1,81 +1,69 @@
 #include <vector>
+#include <string>
 #include <iostream>
 
-#include "cab-rides-row.h"
-#include "weather-row.h"
+#include "cab-rides.h"
+#include "weather.h"
 #include "statistics.h"
 
 using namespace std;
 
-vector<CabRidesRow> getRideTestData() {
-    vector<CabRidesRow> rows = {
-        // distance, cab_type, time_stamp, price, product_name
-        // price = (distance + noise(mean=1, std=0.4)) * 2
-        { 10.0, CabType::Lyft, 7, 21.83070, "normal" },
-        { 10.0, CabType::Lyft, 10, 23.77734, "normal" },
-        { 10.0, CabType::Lyft, 5, 21.98066, "normal" },
-        { 10.0, CabType::Lyft, 11, 22.35094, "normal" },
-        { 11.0, CabType::Lyft, 6, 25.34288, "normal" },
-        { 11.0, CabType::Lyft, 9, 24.54997, "normal" },
-        { 12.0, CabType::Lyft, 2, 26.77077, "normal" },
-        { 12.0, CabType::Lyft, 1, 25.85557, "normal" },
-        { 13.0, CabType::Lyft, 4, 26.64197, "normal" },
-        { 14.0, CabType::Lyft, 8, 28.79596, "normal" },
-        { 15.0, CabType::Lyft, 14, 31.49976, "normal" },
-        { 16.0, CabType::Lyft, 12, 34.10198, "normal" },
-        { 17.0, CabType::Lyft, 3, 34.53185, "normal" },
-        { 18.0, CabType::Lyft, 0, 38.73401, "normal" },
-        { 19.0, CabType::Lyft, 13, 39.70895, "normal" },
+CabRides getRideTestData() {
+    vector<CabType> cab_types(15, CabType::Lyft);
+    vector<CabType> ubers(15, CabType::Uber);
+    cab_types.insert(cab_types.end(), ubers.begin(), ubers.end());
 
-        // price = (distance + noise(mean=1, std=0.4)) * 1.5
-        { 10.0, CabType::Uber, 13, 17.19143, "normal" },
-        { 10.0, CabType::Uber, 12, 15.51235, "normal" },
-        { 10.0, CabType::Uber, 7, 15.54780, "normal" },
-        { 10.0, CabType::Uber, 2, 17.81076, "normal" },
-        { 11.0, CabType::Uber, 14, 18.39082, "normal" },
-        { 11.0, CabType::Uber, 3, 18.01110, "normal" },
-        { 12.0, CabType::Uber, 4, 20.85211, "normal" },
-        { 12.0, CabType::Uber, 10, 20.57887, "normal" },
-        { 13.0, CabType::Uber, 9, 21.94923, "normal" },
-        { 14.0, CabType::Uber, 0, 23.16039, "normal" },
-        { 15.0, CabType::Uber, 11, 22.99939, "normal" },
-        { 16.0, CabType::Uber, 1, 25.79663, "normal" },
-        { 17.0, CabType::Uber, 8, 27.18243, "normal" },
-        { 18.0, CabType::Uber, 6, 27.28597, "normal" },
-        { 19.0, CabType::Uber, 5, 31.01332, "normal" }
+    CabRides r = {
+        {
+            10.0, 10.0, 10.0, 10.0, 11.0, 11.0, 12.0, 12.0, 13.0, 14.0, 15.0,
+            16.0, 17.0, 18.0, 19.0,
+            10.0, 10.0, 10.0, 10.0, 11.0, 11.0, 12.0, 12.0, 13.0, 14.0, 15.0,
+            16.0, 17.0, 18.0, 19.0
+        },
+        cab_types,
+        {
+            7, 10, 5, 11, 6, 9, 2, 1, 4, 8, 14, 12, 3, 0, 13,
+            13, 12, 7, 2, 14, 3, 4, 10, 9, 0, 11, 1, 8, 6, 5
+        },
+
+        {
+            21.83070, 23.77734, 21.98066, 22.35094, 25.34288,
+            24.54997, 26.77077, 25.85557, 26.64197, 28.79596,
+            31.49976, 34.10198, 34.53185, 38.73401, 39.70895,
+            17.19143, 15.51235, 15.54780, 17.81076, 18.39082,
+            18.01110, 20.85211, 20.57887, 21.94923, 23.16039,
+            22.99939, 25.79663, 27.18243, 27.28597, 31.01332
+        },
+
+        vector<std::string>(30, "normal")
     };
 
-    return rows;
+    return r;
 }
 
-vector<WeatherRow> getWeatherTestData() {
-    vector<WeatherRow> rows = {
-        // temp, rain, time_stamp
-        // it was dry... then it was raining
-        { 46.2, 0.0, 0},
-        { 35.8, 0.0, 1},
-        { 37.8, 0.0, 2},
-        { 39.3, 0.0, 3},
-        { 40.7, 0.0, 4},
-        { 33.9, 0.0, 5},
-        { 36.8, 0.0, 6},
-        { 40.5, 0.0, 7},
-        { 48.9, 0.0, 8},
-        { 35.0, 0.0, 9},
-        { 42.4, 0.0, 10},
-        { 38.6, 0.2, 11},
-        { 36.9, 0.2, 12},
-        { 39.2, 0.2, 13},
-        { 37.9, 1.0, 14}
+Weather getWeatherTestData() {
+    Weather w = {
+        {
+            46.2, 35.8, 37.8, 39.3, 40.7, 33.9, 36.8, 40.5, 48.9, 35.0, 42.4,
+            38.6, 36.9, 39.2, 37.9
+        },
+        {
+            0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.2, 0.2, 0.2, 1.0
+        },
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+        }
     };
 
-    return rows;
+    return w;
 }
 
 int main() {
     auto rides = getRideTestData();
-    stats price_stats = getRidePriceStats(rides);
-    stats distance_stats = getRideDistanceStats(rides);
+    stats price_stats = getOneVarStats(rides.prices);
+    stats distance_stats = getOneVarStats(rides.distances);
 
     cout << "[price stats] mean: " << price_stats.mean
         << " stdev: " << price_stats.sd

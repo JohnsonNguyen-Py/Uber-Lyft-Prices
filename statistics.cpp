@@ -6,17 +6,17 @@
 
 using namespace std;
 
-// mean of rides distances
-stats getRideDistanceStats(vector<CabRidesRow> rides) {
+// get mean, standard deviation, and skew of column
+stats getOneVarStats(vector<float>& column) {
     stats s;
-    assert(rides.size() != 0);
+    assert(column.size() != 0);
     int n = 0;
     float accum = 0.0;
     float accum_sq = 0.0;
 
-    for (auto& r : rides) {
-        accum += r.distance;
-        accum_sq += r.distance * r.distance;
+    for (auto& data : column) {
+        accum += data;
+        accum_sq += data * data;
         n++;
     }
 
@@ -25,35 +25,8 @@ stats getRideDistanceStats(vector<CabRidesRow> rides) {
 
     float accum_cub = 0.0;
 
-    for (auto& r : rides) {
-        accum_cub += pow(r.distance - s.mean, 3);
-    }
-
-    s.skew = accum_cub / (float)(n - 1) / pow(s.sd, 3);
-
-    return s;
-}
-
-stats getRidePriceStats(vector<CabRidesRow> rides) {
-    stats s;
-    assert(rides.size() != 0);
-    int n = 0;
-    float accum = 0.0;
-    float accum_sq = 0.0;
-
-    for (auto& r : rides) {
-        accum += r.price;
-        accum_sq += r.price * r.price;
-        n++;
-    }
-
-    s.mean = accum / (float) n;
-    s.sd = sqrt((accum_sq / (n - 1)) - (s.mean * s.mean));
-
-    float accum_cub = 0.0;
-
-    for (auto& r : rides) {
-        accum_cub += pow(r.price - s.mean, 3);
+    for (auto& data : column) {
+        accum_cub += pow(data - s.mean, 3);
     }
 
     s.skew = accum_cub / (float)(n - 1) / pow(s.sd, 3);
