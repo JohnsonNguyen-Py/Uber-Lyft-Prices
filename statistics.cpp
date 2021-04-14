@@ -43,13 +43,13 @@ float correlation(vector<float>& x, vector<float>& y)
     int squareX = 0, squareY = 0;
 
     for (int i = 0; i < xsize; i++)
-    {//start loop 
+    {//start loop
 
         //sum total of all vector x
         totalX += x.at(i);
 
         //sum total of all vector y
-        totalY = += y.at(i);
+        totalY += y.at(i);
 
         //sum total of x*y
         totalXY = totalXY + x.at(i) * y.at(i);

@@ -2,78 +2,49 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <string>
 #include "weather.h"
 
 using namespace std;
 
-void Weather::vectorWeatherDataInsert()
-{ //start vector data insert
+Weather::Weather(const string& filename) {
+	fstream table(filename, ios::in);
+	string line;
+	char dummy_char;
+	string dummy_string;
 
-    //opening file
-    fstream weather;
+	getline(table, line); // skip first line
 
-    weather.open("weather.csv", ios::in);
+	while ( getline(table, line) ) {
+		// table format: temp, location, clouds, pressure, rain, time_stamp
+		// humidity, wind,
 
-    //clear data vector
-    temps.clear();
-    rain.clear();
-    time_stamps.clear();
+		stringstream ss(line);
+		float temp;
+		ss >> temp;
 
-    string line, word, place;
+		// location
+		ss.get(dummy_char); // skip the comma
+		getline(ss, dummy_string, ',');
+		// clouds
+		getline(ss, dummy_string, ',');
+		// pressure
+		getline(ss, dummy_string, ',');
 
-    while (weather >> place)
-    { //start reading row
+		// rain
+		float rain_data;
+		if ( ss.peek() == ',') {
+			rain_data = 0.0;
+		} else {
+			ss >> rain_data;
+		}
 
-        //row of data is in line variable
-        getline(weather, line);
+		ss.get(dummy_char);
+		long long time_stamp;
+		ss >> time_stamp;
 
-        //breaks line into each data val
-        stringstream broken(line);
-
-        //two int vairable to make counter
-        //counter makes it possible to put data in specifc data vector
-        int hold = 0;
-        int specific;
-
-        while (getline(broken, word, ','))
-        { //start reading column val in row
-            specific = hold % 8;
-
-            specific = 0 - 7 = weather temps 4 = rain 5 = time_stamp
-                           other numb = unneeded data;
-
-            //start putting data val into vectors
-            if (specific == 0)
-            { //place data val into distance val
-                temp.push_back(word);
-            }
-            else if (specific == 4)
-            { //place data val into cab_type
-                rain.push_back(word);
-            }
-            else if (specific == 5)
-            { //place data val into time_stamp
-                time_stamps.push_back(word);
-            }
-            else
-            { //place data val into misc
-                misc.push_back(word);
-            }
-
-            //make sure specific stays between 0 - 9
-            if (hold < 8)
-            {
-                hold++;
-            }
-            else
-            {
-                hold = 0;
-            }
-        } //end reading column val in row
-
-    } //end reading row
-
-    //close file
-    weather.close();
-
-} //end vector data insert
+		temps.push_back(temp);
+		rain.push_back(rain_data);
+		time_stamps.push_back(time_stamp);
+	}
+}

@@ -5,8 +5,8 @@
 class Weather
 {
 public:
+    Weather(const std::string& filename);
     std::vector<float> temps;
-    //std::vector<vectorWeatherDataInsert> vectorWeatherDataInsert;
     std::vector<float> rain;
     std::vector<long long> time_stamps;
 };
