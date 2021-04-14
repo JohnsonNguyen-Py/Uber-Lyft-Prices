@@ -6,7 +6,7 @@
 
 enum CabType
 {
-    Lyft, Uber
+    Lyft, Uber, UNKNOWN
 };
 
 class CabRides
@@ -14,10 +14,11 @@ class CabRides
 public:
     std::vector<float> distances;
     std::vector<CabType> cab_types;
-    std::vector<int> time_stamps;
+    std::vector<long long> time_stamps;
     std::vector<float> prices;
     std::vector<std::string> product_names;
-    void vectorDataInsert();
+
+    CabRides(const std::string& filename);
 };
 
 #endif

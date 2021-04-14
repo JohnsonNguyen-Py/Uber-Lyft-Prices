@@ -2,105 +2,77 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <string>
+
 #include "cab-rides.h"
 
 using namespace std;
 
-void CabRidesRow::vectorRideDataInsert()
-{//start vector data insert
 
-	//opening file
-	fstream ride;
+ostream& operator<<(ostream& os, const CabType& ct)
+{
+    switch(ct) {
+        case CabType::Lyft: os << "Lyft"; break;
+        case CabType::Uber: os << "Uber"; break;
+        case CabType::UNKNOWN: os << "UNKNOWN"; break;
+    }
+    return os;
+}
 
-	ride.open("cab_rides.csv", ios::in);
+CabRides::CabRides(const string& filename) {
+	fstream table(filename, ios::in);
+	string line;
+	char dummy_char;
+	string dummy_string;
 
-	//clear data vector
-	distance.clear();
-	price.clear();
-	time_stamp.clear();
-	product_name.clear();
-	cab_type.clear();
-	misc.clear();
+	getline(table, line); // skip first line
 
-	//start entering data
-	string line, word, place;
+	while ( getline(table, line) ) {
+		// table format: distance, cab_type, time_stamp, destination, source,
+		// price, surge_multiplier, id, product_id, name
 
-	while (ride >> place)
-	{//start reading rows
+		stringstream ss(line);
+		float distance;
+		ss >> distance;
 
-		//puts row of data into line
-		getline(ride, line);
+		// cab_type is slightly more involved
+		string service;
+		ss.get(dummy_char); // skip the comma
+		getline(ss, service, ',');
 
-		//break words up
-		stringstream broken(line);
+		long long time_stamp;
+		ss >> time_stamp;
 
-		//two int vairable to make counter
-		//counter makes it possible to put data in specifc data vector
-		int hold = 0;
-		int specific;
-		while (getline(broken, word, ','))
-		{//start reading column val in row
-			specific = hold % 10;
+		// destination
+		ss.get(dummy_char);
+		getline(ss, dummy_string, ',');
+		// source
+		getline(ss, dummy_string, ',');
 
-			/*
-			* based off what the csv file is and with no changes to the file
-			* the range that specific is in are the cols that data is in
-			specific = 0 - 9
-			0 = distance
-			1 = cab type
-			2 = time stamp
-			5 = price
-			9 = product name
-			other numb = misc data
-			*/
+		if ( ss.peek() == ',') continue; // Do NOT use rows with missing values
+		float price;
+		ss >> price;
 
+		// surge_multiplier
+		ss.get(dummy_char);
+		getline(ss, dummy_string, ',');
+		// id
+		ss.get(dummy_char);
+		getline(ss, dummy_string, ',');
 
-			//start putting data val into specifc vectors
-			if (specific == 0)
-			{//place data val into distance val
-				distance.push_back(word);
-			}
-			else if (specific == 1)
-			{//place data val into cab_type
-				cab_type.push_back(word);
-			}
-			else if (specific == 2)
-			{//place data val into time_stamp
-				time_stamp.push_back(word);
-			}
-			else if (specific == 5)
-			{//place data val into price
-				price.push_back(word);
-			}
-			else if (specific == 9)
-			{//place data val into cab_type
-				product_name.push_back(word);
-			}
-			else
-			{//place data val into misc
-				misc.push_back(word);
-			}
+		string product_name;
+		getline(ss, product_name, ',');
 
-			//make sure specific stays between 0 - 9
-			if (hold < 10)
-			{
-				hold++;
-			}
-			else
-			{
-				hold = 0;
-			}
-		}//end reading column val in row
-
-		while (getline(break, word, ','))
-		{//reads column val in row
-			//add column val into vector
-			ride.push_back(word);
+		distances.push_back(distance);
+		if ( service == "Lyft" ) {
+			cab_types.push_back(CabType::Lyft);
+		} else if ( service == "Uber" ) {
+			cab_types.push_back(CabType::Uber);
+		} else {
+			cab_types.push_back(CabType::UNKNOWN);
 		}
-
-	}//end reading row
-
-	//close file
-	ride.close();
-
-}//end vector data insert
+		time_stamps.push_back(time_stamp);
+		prices.push_back(price);
+		product_names.push_back(product_name);
+	}
+}

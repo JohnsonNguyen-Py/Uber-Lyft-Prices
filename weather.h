@@ -6,8 +6,7 @@ class Weather
 public:
     std::vector<float> temps;
     std::vector<float> rain;
-    std::vector<int> time_stamps;
-    void vectorDataInsert();
+    std::vector<long long> time_stamps;
 };
 
 #endif

@@ -10,9 +10,9 @@ using namespace std;
 stats getOneVarStats(vector<float>& column) {
     stats s;
     assert(column.size() != 0);
-    int n = 0;
-    float accum = 0.0;
-    float accum_sq = 0.0;
+    long n = 0;
+    double accum = 0.0;
+    double accum_sq = 0.0;
 
     for (auto& data : column) {
         accum += data;
@@ -20,16 +20,16 @@ stats getOneVarStats(vector<float>& column) {
         n++;
     }
 
-    s.mean = accum / (float) n;
-    s.sd = sqrt((accum_sq / (float)(n - 1)) - (s.mean * s.mean));
+    s.mean = accum / (double) n;
+    s.sd = sqrt((accum_sq / (double)(n - 1)) - (s.mean * s.mean));
 
-    float accum_cub = 0.0;
+    double accum_cub = 0.0;
 
     for (auto& data : column) {
         accum_cub += pow(data - s.mean, 3);
     }
 
-    s.skew = accum_cub / (float)(n - 1) / pow(s.sd, 3);
+    s.skew = accum_cub / (double)(n - 1) / pow(s.sd, 3);
 
     return s;
 }
