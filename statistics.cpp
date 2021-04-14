@@ -34,33 +34,38 @@ stats getOneVarStats(vector<float>& column) {
     return s;
 }
 
-float correlation(vector<float>& x, vector<float>& y)
-{//start
-    //# of elements to compare both vectors
-    int xsize = x.size();
+linearFit getLinearFit(vector<float>& x, vector<float>& y) {
+    linearFit lf;
 
-    int totalX = 0, totalY = 0, totalXY = 0;
-    int squareX = 0, squareY = 0;
+    long long n = x.size() <= y.size() ? x.size() : y.size();
+    double xAccum = 0.0;
+    double xAccum_sq = 0.0;
+    double yAccum = 0.0;
+    double yAccum_sq = 0.0;
+    double xyAccum = 0.0;
 
-    for (int i = 0; i < xsize; i++)
-    {//start loop
+    for (int i = 0; i < n; i++) {
+        float xi = x.at(i);
+        float yi = y.at(i);
+        xAccum += xi;
+        yAccum += yi;
+        xAccum_sq += xi * xi;
+        yAccum_sq += yi * yi;
+        xyAccum += xi * yi;
+    }
 
-        //sum total of all vector x
-        totalX += x.at(i);
+    double count = (double) n;
+    double num = (xyAccum / count) - (xAccum / count) * (yAccum / count);
+    double denom = sqrt((xAccum_sq / count - pow(xAccum / count, 2)) * (yAccum_sq / count - pow(yAccum / count, 2)));
+    lf.correlation = num / denom;
 
-        //sum total of all vector y
-        totalY += y.at(i);
+    double xMean = xAccum / count;
+    double xsd = sqrt((xAccum_sq / count) - (xMean * xMean));
+    double yMean = yAccum / count;
+    double ysd = sqrt((yAccum_sq / count) - (yMean * yMean));
 
-        //sum total of x*y
-        totalXY = totalXY + x.at(i) * y.at(i);
+    lf.slope = lf.correlation * ysd / xsd;
+    lf.intercept = yMean - lf.slope * xMean;
 
-        //sum of square vector elements
-        squareX = squareX + x.at(i) * x.at(i);
-        squareY = squareY + y.at(i) * y.at(i);
-    }//end loop
-
-    //calc correlation coefficient
-    float corr = (float)(xsize * totalXY - totalX + totalY) / sqrt((xsize * squareX - totalX * totalX) * (xsize * squareY - totalY * totalY));
-
-    return corr;
-}//end
+    return lf;
+}

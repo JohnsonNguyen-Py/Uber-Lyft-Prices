@@ -9,12 +9,13 @@
 using namespace std;
 
 int main() {
-    CabRides rides("test_cab_rides.csv");
+    CabRides rides("cab_rides.csv");
     Weather weather("test_weather.csv");
     // DEBUG
     stats price_stats = getOneVarStats(rides.prices);
     stats distance_stats = getOneVarStats(rides.distances);
     stats weather_stats = getOneVarStats(weather.temps);
+    linearFit price_distance_fit = getLinearFit(rides.distances, rides.prices);
 
     cout << "[price stats] mean: " << price_stats.mean
         << " stdev: " << price_stats.sd
@@ -27,4 +28,8 @@ int main() {
     cout << "[temp stats] mean: " << weather_stats.mean
         << " stdev: " << weather_stats.sd
         << " skew: " << weather_stats.skew << endl;
+
+    cout << "[price vs. distance linear fit] slope: " << price_distance_fit.slope
+        << " intercept: " << price_distance_fit.intercept
+        << " correlation: " << price_distance_fit.correlation;
 }

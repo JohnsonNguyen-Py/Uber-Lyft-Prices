@@ -21,7 +21,6 @@ struct linearFit {
 
 // mean of rides distances
 stats getOneVarStats(std::vector<float> &columns);
-
-float correlation(std::vector<float>& x, std::vector<float>& y);
+linearFit getLinearFit(std::vector<float>& x, std::vector<float>& y);
 
 #endif
