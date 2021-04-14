@@ -16,4 +16,6 @@ struct stats {
 // mean of rides distances
 stats getOneVarStats(std::vector<float> &columns);
 
+float correlation(vector<float>& x, vector<float>& y);
+
 #endif
