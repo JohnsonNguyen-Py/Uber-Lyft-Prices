@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <math.h>
+#include <iostream>
 
 #include "cab-rides.h"
 #include "weather.h"
@@ -22,5 +23,7 @@ struct linearFit {
 // mean of rides distances
 stats getOneVarStats(std::vector<float> &columns);
 linearFit getLinearFit(std::vector<float>& x, std::vector<float>& y);
+std::ostream& operator<<(std::ostream& os, stats s);
+std::ostream& operator<<(std::ostream& os, linearFit lf);
 
 #endif

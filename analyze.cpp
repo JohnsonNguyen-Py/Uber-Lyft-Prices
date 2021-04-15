@@ -10,26 +10,29 @@ using namespace std;
 
 int main() {
     CabRides rides("cab_rides.csv");
-    Weather weather("test_weather.csv");
-    // DEBUG
+    Weather weather("weather.csv");
+
     stats price_stats = getOneVarStats(rides.prices);
     stats distance_stats = getOneVarStats(rides.distances);
-    stats weather_stats = getOneVarStats(weather.temps);
+    stats temp_stats = getOneVarStats(weather.temps);
     linearFit price_distance_fit = getLinearFit(rides.distances, rides.prices);
 
-    cout << "[price stats] mean: " << price_stats.mean
-        << " stdev: " << price_stats.sd
-        << " skew: " << price_stats.skew << endl;
+    cout << "[price stats]" << endl << price_stats << endl << endl;
+    cout << "[distance stats]" << endl << distance_stats << endl << endl;
+    cout << "[temp stats]" << endl <<  temp_stats << endl << endl;
 
-    cout << "[distance stats] mean: " << distance_stats.mean
-        << " stdev: " << distance_stats.sd
-        << " skew: " << distance_stats.skew << endl;
+    cout << "[price vs. distance linear fit]" << endl << price_distance_fit << endl << endl;
 
-    cout << "[temp stats] mean: " << weather_stats.mean
-        << " stdev: " << weather_stats.sd
-        << " skew: " << weather_stats.skew << endl;
+    CabRides uberRides = rides.getUberRides();
+    CabRides lyftRides = rides.getLyftRides();
 
-    cout << "[price vs. distance linear fit] slope: " << price_distance_fit.slope
-        << " intercept: " << price_distance_fit.intercept
-        << " correlation: " << price_distance_fit.correlation;
+    stats uber_price_stats = getOneVarStats(uberRides.prices);
+    stats lyft_price_stats = getOneVarStats(lyftRides.prices);
+    linearFit uber_price_distance_fit = getLinearFit(uberRides.distances, uberRides.prices);
+    linearFit lyft_price_distance_fit = getLinearFit(lyftRides.distances, lyftRides.prices);
+
+    cout << "[price stats (Uber Only)]" << endl << uber_price_stats << endl << endl;
+    cout << "[price stats (Lyft Only)]" << endl << lyft_price_stats << endl << endl;
+    cout << "[price vs. distance (Uber Only) linear fit]" << endl << uber_price_distance_fit << endl << endl;
+    cout << "[price vs. distance (Lyft Only) linear fit]" << endl << lyft_price_distance_fit << endl << endl;
 }

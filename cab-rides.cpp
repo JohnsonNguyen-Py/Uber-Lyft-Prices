@@ -76,3 +76,33 @@ CabRides::CabRides(const string& filename) {
 		product_names.push_back(product_name);
 	}
 }
+
+CabRides CabRides::getUberRides() {
+    CabRides c;
+    for (auto i = 0; i < cab_types.size(); i++) {
+        if ( cab_types.at(i) == CabType::Uber ) {
+            c.distances.push_back(distances.at(i));
+            c.cab_types.push_back(cab_types.at(i));
+            c.time_stamps.push_back(time_stamps.at(i));
+            c.prices.push_back(prices.at(i));
+            c.product_names.push_back(product_names.at(i));
+        }
+    }
+
+    return c;
+}
+
+CabRides CabRides::getLyftRides() {
+    CabRides c;
+    for (auto i = 0; i < cab_types.size(); i++) {
+        if ( cab_types.at(i) == CabType::Lyft ) {
+            c.distances.push_back(distances.at(i));
+            c.cab_types.push_back(cab_types.at(i));
+            c.time_stamps.push_back(time_stamps.at(i));
+            c.prices.push_back(prices.at(i));
+            c.product_names.push_back(product_names.at(i));
+        }
+    }
+
+    return c;
+}

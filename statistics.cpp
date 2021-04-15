@@ -1,6 +1,7 @@
 #include <vector>
 #include <math.h>
 #include <assert.h>
+#include <iostream>
 
 #include "statistics.h"
 
@@ -68,4 +69,22 @@ linearFit getLinearFit(vector<float>& x, vector<float>& y) {
     lf.intercept = yMean - lf.slope * xMean;
 
     return lf;
+}
+
+CabRides::CabRides() {}
+
+ostream& operator<<(std::ostream& os, const stats s)
+{
+    os << "mean: " << s.mean
+        << " stdev: " << s.sd
+        << " skew: " << s.skew;
+    return os;
+}
+
+ostream& operator<<(std::ostream& os, const linearFit lf)
+{
+    os << "slope: " << lf.slope
+        << " intercept: " << lf.intercept
+        << " correlation: " << lf.intercept;
+    return os;
 }

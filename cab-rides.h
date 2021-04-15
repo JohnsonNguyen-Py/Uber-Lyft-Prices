@@ -19,6 +19,10 @@ public:
     std::vector<std::string> product_names;
 
     CabRides(const std::string& filename);
+    CabRides();
+
+    CabRides getUberRides();
+    CabRides getLyftRides();
 };
 
 #endif
