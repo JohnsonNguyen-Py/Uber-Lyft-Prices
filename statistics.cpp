@@ -46,8 +46,8 @@ linearFit getLinearFit(vector<float>& x, vector<float>& y) {
     double xyAccum = 0.0;
 
     for (int i = 0; i < n; i++) {
-        float xi = x.at(i);
-        float yi = y.at(i);
+        double xi = x.at(i);
+        double yi = y.at(i);
         xAccum += xi;
         yAccum += yi;
         xAccum_sq += xi * xi;
@@ -56,9 +56,9 @@ linearFit getLinearFit(vector<float>& x, vector<float>& y) {
     }
 
     double count = (double) n;
-    double num = (xyAccum / count) - (xAccum / count) * (yAccum / count);
-    double denom = sqrt((xAccum_sq / count - pow(xAccum / count, 2)) * (yAccum_sq / count - pow(yAccum / count, 2)));
-    lf.correlation = num / denom;
+    double numerator = double(n * xyAccum) - xAccum * yAccum;
+    double denom = double(n * xAccum_sq - xAccum * xAccum) * (double(n * yAccum_sq) - yAccum * yAccum);
+    lf.correlation = numerator / sqrt(denom);
 
     double xMean = xAccum / count;
     double xsd = sqrt((xAccum_sq / count) - (xMean * xMean));
